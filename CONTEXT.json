@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "projectName": "JARVIS",
+    "projectDescription": "Multi-agent intelligence system with synchronized context sharing",
+    "version": "1.0.0",
+    "createdAt": "2026-01-12T13:34:44Z",
+    "lastUpdated": "2026-01-12T13:34:44Z",
+    "owner": "Brvetr4ve1er",
+    "repository": "https://github.com/Brvetr4ve1er/JARVIS"
+  },
+  "agentStatus": {
+    "agents": [
+      {
+        "id": "agent-001",
+        "name": "Primary Orchestrator",
+        "type": "orchestrator",
+        "status": "inactive",
+        "lastHeartbeat": null,
+        "capabilities": [],
+        "resourceUsage": {
+          "cpu": 0,
+          "memory": 0,
+          "timestamp": null
+        }
+      }
+    ],
+    "syncInterval": 5000,
+    "lastSyncTime": null
+  },
+  "decisions": {
+    "active": [],
+    "archived": [],
+    "schema": {
+      "id": "string",
+      "title": "string",
+      "description": "string",
+      "context": "string",
+      "options": "array",
+      "selectedOption": "string",
+      "rationale": "string",
+      "madeAt": "timestamp",
+      "madeBy": "string",
+      "impacts": "array",
+      "status": "enum: pending|approved|rejected|implemented"
+    }
+  },
+  "executionHistory": {
+    "totalExecutions": 0,
+    "successfulExecutions": 0,
+    "failedExecutions": 0,
+    "executions": [],
+    "schema": {
+      "id": "string",
+      "type": "string",
+      "agentId": "string",
+      "startTime": "timestamp",
+      "endTime": "timestamp",
+      "status": "enum: running|success|failure|timeout",
+      "result": "object",
+      "error": "string",
+      "duration": "milliseconds"
+    }
+  },
+  "availableSpells": {
+    "categories": {
+      "core": {
+        "description": "Core system spells",
+        "spells": []
+      },
+      "integration": {
+        "description": "External system integration spells",
+        "spells": []
+      },
+      "analysis": {
+        "description": "Data analysis and processing spells",
+        "spells": []
+      },
+      "communication": {
+        "description": "Inter-agent and external communication spells",
+        "spells": []
+      }
+    },
+    "schema": {
+      "id": "string",
+      "name": "string",
+      "category": "string",
+      "description": "string",
+      "inputs": "object",
+      "outputs": "object",
+      "dependencies": "array",
+      "version": "string",
+      "enabled": "boolean"
+    }
+  },
+  "sharedArchitecturalDecisions": {
+    "decisions": [
+      {
+        "id": "arch-001",
+        "title": "Multi-Agent Synchronization Model",
+        "description": "Agents synchronize state through centralized CONTEXT.json",
+        "status": "active",
+        "adoptedDate": "2026-01-12T13:34:44Z",
+        "components": [
+          "Central context store",
+          "Distributed agents",
+          "Sync protocol"
+        ],
+        "tradeoffs": [],
+        "alternatives": [],
+        "documents": []
+      }
+    ],
+    "principles": [
+      {
+        "id": "principle-001",
+        "name": "Eventual Consistency",
+        "description": "All agents should eventually reach consistent state"
+      },
+      {
+        "id": "principle-002",
+        "name": "Idempotency",
+        "description": "Operations should produce same result regardless of execution count"
+      },
+      {
+        "id": "principle-003",
+        "name": "Transparency",
+        "description": "All agent actions and decisions must be logged and auditable"
+      }
+    ],
+    "constraints": [
+      {
+        "id": "constraint-001",
+        "name": "Context Size Limit",
+        "description": "CONTEXT.json should not exceed 10MB",
+        "unit": "MB",
+        "value": 10
+      },
+      {
+        "id": "constraint-002",
+        "name": "Sync Timeout",
+        "description": "Maximum time for context synchronization",
+        "unit": "seconds",
+        "value": 30
+      }
+    ]
+  },
+  "synchronizationConfig": {
+    "protocol": "json-merge-strategy",
+    "conflictResolution": "last-write-wins",
+    "retryPolicy": {
+      "maxRetries": 3,
+      "backoffMs": 1000,
+      "backoffMultiplier": 2
+    },
+    "compression": {
+      "enabled": false,
+      "algorithm": "gzip"
+    }
+  },
+  "systemHealth": {
+    "status": "initializing",
+    "uptime": 0,
+    "errorCount": 0,
+    "lastCheckTime": "2026-01-12T13:34:44Z",
+    "alerts": []
+  }
+}
