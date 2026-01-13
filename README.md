@@ -1,766 +1,433 @@
-# JARVIS - Multi-Agent Orchestration System
-
-A sophisticated multi-agent AI orchestration framework designed to coordinate multiple specialized AI agents for complex task execution, decision-making, and intelligent automation.
-
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Features](#features)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Core Components](#core-components)
-- [Agent Types](#agent-types)
-- [Configuration](#configuration)
-- [Usage Examples](#usage-examples)
-- [API Reference](#api-reference)
-- [Advanced Features](#advanced-features)
-- [Performance Optimization](#performance-optimization)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
-
-## 🎯 Overview
-
-JARVIS is an enterprise-grade multi-agent orchestration system that enables seamless coordination between multiple AI agents. It provides a unified framework for:
-
-- **Agent Coordination**: Orchestrate multiple specialized agents working towards common objectives
-- **Task Distribution**: Intelligently route tasks to appropriate agents based on capabilities and availability
-- **Knowledge Sharing**: Enable agents to learn from each other and share contextual information
-- **Fault Tolerance**: Handle agent failures gracefully with automatic recovery mechanisms
-- **Real-time Monitoring**: Track agent performance and system health in real-time
-
-## 🏗️ Architecture
-
-### System Components
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    JARVIS Orchestration Engine              │
-├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │              Task Manager & Scheduler                │   │
-│  │  - Task Queue Management                             │   │
-│  │  - Priority-based Scheduling                         │   │
-│  │  - Load Balancing                                    │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                                                               │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │           Agent Registry & Discovery                 │   │
-│  │  - Agent Capability Index                            │   │
-│  │  - Health Monitoring                                 │   │
-│  │  - Dynamic Registration                              │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                                                               │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │         Communication & Messaging Layer              │   │
-│  │  - Event Bus                                         │   │
-│  │  - Message Queue                                     │   │
-│  │  - Protocol Handlers                                 │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                                                               │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │      Knowledge Base & Context Management             │   │
-│  │  - Shared Memory                                     │   │
-│  │  - Context Propagation                               │   │
-│  │  - State Management                                  │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                                                               │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │         Monitoring & Analytics                       │   │
-│  │  - Performance Metrics                               │   │
-│  │  - Audit Logging                                     │   │
-│  │  - Real-time Dashboards                              │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                                                               │
-├─────────────────────────────────────────────────────────────┤
-│                      Agent Layer                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│  [Analyzer]  [Planner]  [Executor]  [Monitor]  [Custom...] │
-│                                                               │
-└─────────────────────────────────────────────────────────────┘
-```
-
-## ✨ Features
-
-### Core Features
-- **Multi-Agent Coordination**: Seamlessly coordinate multiple AI agents
-- **Intelligent Task Routing**: Dynamic task distribution based on agent capabilities
-- **Asynchronous Communication**: Non-blocking message passing between agents
-- **Hierarchical Task Management**: Support for complex task hierarchies and subtasks
-- **State Management**: Persistent and transient state tracking
-
-### Advanced Features
-- **Machine Learning Integration**: Build ML-enhanced agents
-- **Workflow Automation**: Define and execute complex workflows
-- **API Extensibility**: Easy integration with external services
-- **Security & Access Control**: Role-based access and permission management
-- **Scalability**: Horizontal scaling capabilities for high-load scenarios
-
-### Enterprise Features
-- **High Availability**: Clustered deployment support
-- **Disaster Recovery**: Checkpoint and recovery mechanisms
-- **Audit Trails**: Complete audit logging for compliance
-- **Service Level Agreements (SLAs)**: Monitor and enforce SLAs
-- **Multi-tenancy**: Isolated agent environments per tenant
-
-## 📦 Installation
-
-### Prerequisites
-- Python 3.8+
-- pip or conda
-- Redis (for message queue and caching)
-- PostgreSQL or MongoDB (for persistence)
-
-### Basic Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/Brvetr4ve1er/JARVIS.git
-cd JARVIS
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Optional: Install development dependencies
-pip install -r requirements-dev.txt
-```
-
-### Docker Installation
-
-```bash
-# Build Docker image
-docker build -t jarvis:latest .
-
-# Run with Docker Compose
-docker-compose up -d
-```
-
-### Configuration Setup
-
-```bash
-# Copy example configuration
-cp config/example.yml config/local.yml
-
-# Edit configuration as needed
-nano config/local.yml
-
-# Initialize database
-python -m jarvis.cli init-db
-```
-
-## 🚀 Quick Start
-
-### 1. Basic Agent Creation
-
-```python
-from jarvis.core import Agent, Capability
-
-class AnalysisAgent(Agent):
-    def __init__(self):
-        super().__init__(name="analyzer")
-        self.add_capability(Capability(
-            name="analyze_data",
-            description="Analyze datasets",
-            input_schema={"data": "array"},
-            output_schema={"analysis": "object"}
-        ))
-    
-    async def analyze_data(self, data):
-        # Your analysis logic here
-        return {"analysis": result}
-```
-
-### 2. Initialize Orchestration Engine
-
-```python
-from jarvis.orchestration import JarvisOrchestrator
-
-# Create orchestrator instance
-orchestrator = JarvisOrchestrator(config_file="config/local.yml")
-
-# Register agents
-orchestrator.register_agent(AnalysisAgent())
-orchestrator.register_agent(PlanningAgent())
-orchestrator.register_agent(ExecutionAgent())
-
-# Start the engine
-await orchestrator.start()
-```
-
-### 3. Submit a Task
-
-```python
-# Define task
-task = {
-    "id": "task-001",
-    "type": "data_analysis",
-    "priority": "high",
-    "payload": {
-        "data": [1, 2, 3, 4, 5],
-        "analysis_type": "statistical"
-    }
-}
-
-# Submit task
-result = await orchestrator.submit_task(task)
-print(f"Task result: {result}")
-```
-
-## 🧩 Core Components
-
-### Agent Framework
-Agents are autonomous entities with specific capabilities and responsibilities.
-
-**Key Methods:**
-- `register_capability()`: Register new capabilities
-- `execute()`: Execute assigned tasks
-- `report_status()`: Report current status
-- `handle_event()`: Handle incoming events
-
-### Task Manager
-Manages task lifecycle and distribution.
-
-**Responsibilities:**
-- Queue management
-- Priority scheduling
-- Retry logic
-- Deadline enforcement
-
-### Message Bus
-Facilitates asynchronous communication between agents.
-
-**Features:**
-- Publish-Subscribe pattern
-- Event routing
-- Message serialization
-- Delivery guarantees
-
-### Knowledge Base
-Shared memory for agent collaboration.
-
-**Capabilities:**
-- Key-value storage
-- Namespace isolation
-- Expiration policies
-- Query support
-
-## 👥 Agent Types
-
-### Built-in Agents
-
-#### Analyzer Agent
-Specializes in data analysis and pattern recognition.
-```python
-from jarvis.agents import AnalyzerAgent
-
-analyzer = AnalyzerAgent(
-    name="data_analyzer",
-    features=["statistical_analysis", "anomaly_detection"]
-)
-```
-
-#### Planner Agent
-Creates and manages execution plans.
-```python
-from jarvis.agents import PlannerAgent
-
-planner = PlannerAgent(
-    name="task_planner",
-    planning_strategy="hierarchical"
-)
-```
-
-#### Executor Agent
-Executes planned tasks and manages workflows.
-```python
-from jarvis.agents import ExecutorAgent
-
-executor = ExecutorAgent(
-    name="task_executor",
-    max_concurrent_tasks=5
-)
-```
-
-#### Monitor Agent
-Tracks system health and performance metrics.
-```python
-from jarvis.agents import MonitorAgent
-
-monitor = MonitorAgent(
-    name="system_monitor",
-    metrics_interval=60
-)
-```
-
-### Custom Agent Development
-Extend the base Agent class to create specialized agents.
-
-```python
-from jarvis.core import Agent, Capability
-
-class CustomAgent(Agent):
-    def __init__(self, name, config=None):
-        super().__init__(name=name, config=config)
-        self._setup_capabilities()
-    
-    def _setup_capabilities(self):
-        self.add_capability(Capability(
-            name="custom_operation",
-            description="Performs custom operation",
-            handler=self.handle_custom_operation
-        ))
-    
-    async def handle_custom_operation(self, params):
-        # Implementation
-        return result
-```
-
-## ⚙️ Configuration
-
-### Configuration File Structure
-
-```yaml
-# config/local.yml
-orchestration:
-  engine:
-    name: "JARVIS"
-    version: "1.0.0"
-    worker_threads: 10
-    max_queue_size: 1000
-  
-  scheduler:
-    strategy: "priority_queue"
-    batch_size: 50
-    timeout: 300
-  
-  messaging:
-    broker: "redis"
-    redis_url: "redis://localhost:6379"
-    batch_mode: true
-    batch_timeout: 5
-  
-  persistence:
-    database: "postgresql"
-    db_url: "postgresql://user:password@localhost/jarvis"
-    checkpoint_interval: 3600
-    backup_enabled: true
-
-agents:
-  max_retries: 3
-  retry_delay: 5
-  health_check_interval: 30
-  heartbeat_timeout: 60
-
-monitoring:
-  enabled: true
-  metrics_port: 8089
-  log_level: "INFO"
-  audit_enabled: true
-
-security:
-  auth_enabled: true
-  tls_enabled: true
-  tls_cert_path: "/etc/jarvis/certs/cert.pem"
-  tls_key_path: "/etc/jarvis/certs/key.pem"
-```
-
-### Environment Variables
-
-```bash
-# Database
-export JARVIS_DB_URL=postgresql://user:password@localhost/jarvis
-
-# Redis
-export JARVIS_REDIS_URL=redis://localhost:6379
-
-# Logging
-export JARVIS_LOG_LEVEL=INFO
-
-# Security
-export JARVIS_API_KEY=your-api-key-here
-export JARVIS_SECRET_KEY=your-secret-key-here
-```
-
-## 💡 Usage Examples
-
-### Example 1: Data Processing Pipeline
-
-```python
-import asyncio
-from jarvis.orchestration import JarvisOrchestrator
-
-async def data_pipeline():
-    orchestrator = JarvisOrchestrator("config/local.yml")
-    await orchestrator.start()
-    
-    # Define pipeline tasks
-    tasks = [
-        {
-            "id": "extract",
-            "agent": "data_extractor",
-            "operation": "extract_data",
-            "params": {"source": "api", "limit": 1000}
-        },
-        {
-            "id": "transform",
-            "agent": "data_transformer",
-            "operation": "normalize_data",
-            "depends_on": ["extract"]
-        },
-        {
-            "id": "load",
-            "agent": "data_loader",
-            "operation": "store_data",
-            "depends_on": ["transform"]
-        }
-    ]
-    
-    # Execute pipeline
-    results = await orchestrator.execute_workflow("etl_pipeline", tasks)
-    
-    await orchestrator.shutdown()
-    return results
-
-# Run the pipeline
-asyncio.run(data_pipeline())
-```
-
-### Example 2: Collaborative Problem Solving
-
-```python
-async def collaborative_analysis():
-    orchestrator = JarvisOrchestrator("config/local.yml")
-    await orchestrator.start()
-    
-    # Submit complex task requiring multiple agents
-    task = {
-        "id": "complex_analysis",
-        "type": "collaborative",
-        "objective": "Analyze sales data and provide recommendations",
-        "agents_required": ["analyzer", "forecaster", "recommender"],
-        "data": sales_data
-    }
-    
-    # Orchestrator will coordinate agent collaboration
-    result = await orchestrator.submit_task(task)
-    
-    print("Analysis Results:")
-    print(f"  Insights: {result['insights']}")
-    print(f"  Forecast: {result['forecast']}")
-    print(f"  Recommendations: {result['recommendations']}")
-    
-    await orchestrator.shutdown()
-
-asyncio.run(collaborative_analysis())
-```
-
-### Example 3: Error Handling and Resilience
-
-```python
-async def resilient_task_execution():
-    orchestrator = JarvisOrchestrator("config/local.yml")
-    await orchestrator.start()
-    
-    task = {
-        "id": "resilient_task",
-        "type": "critical_operation",
-        "payload": {"critical_data": data},
-        "retry_policy": {
-            "max_retries": 3,
-            "backoff_strategy": "exponential",
-            "backoff_base": 2
-        },
-        "timeout": 300,
-        "fallback_agent": "backup_executor"
-    }
-    
-    try:
-        result = await orchestrator.submit_task(task)
-        print(f"Task completed: {result}")
-    except TaskTimeoutError:
-        print("Task execution timed out, fallback agent activated")
-    except AgentUnavailableError:
-        print("Primary agent unavailable, using fallback")
-    
-    await orchestrator.shutdown()
-
-asyncio.run(resilient_task_execution())
-```
-
-## 📚 API Reference
-
-### JarvisOrchestrator
-
-Main orchestration engine class.
-
-**Methods:**
-
-#### `submit_task(task: Dict) -> Task`
-Submit a task for execution.
-
-**Parameters:**
-- `task` (Dict): Task definition containing id, type, payload, etc.
-
-**Returns:**
-- `Task`: Task object for tracking execution
-
-**Example:**
-```python
-task = await orchestrator.submit_task({
-    "id": "task-123",
-    "type": "analysis",
-    "payload": {...}
-})
-```
-
-#### `register_agent(agent: Agent) -> None`
-Register an agent with the orchestrator.
-
-**Parameters:**
-- `agent` (Agent): Agent instance to register
-
-**Example:**
-```python
-orchestrator.register_agent(my_agent)
-```
-
-#### `get_agent_status(agent_id: str) -> Dict`
-Get current status of an agent.
-
-**Returns:**
-- Agent status dictionary with health, capacity, etc.
-
-#### `execute_workflow(workflow_id: str, tasks: List[Dict]) -> List`
-Execute a workflow with dependent tasks.
-
-**Parameters:**
-- `workflow_id` (str): Unique workflow identifier
-- `tasks` (List[Dict]): List of task definitions with dependencies
-
-**Returns:**
-- List of task results in execution order
-
-#### `shutdown() -> None`
-Gracefully shutdown the orchestrator.
-
-### Agent Base Class
-
-**Properties:**
-- `name`: Agent identifier
-- `capabilities`: List of agent capabilities
-- `status`: Current agent status
-- `metrics`: Performance metrics
-
-**Methods:**
-
-#### `add_capability(capability: Capability) -> None`
-Add a new capability to the agent.
-
-#### `execute(task: Task) -> Any`
-Execute an assigned task.
-
-#### `report_status() -> Dict`
-Report current agent status.
-
-## 🚄 Advanced Features
-
-### Workflow Definition Language
-
-Define complex workflows using YAML:
-
-```yaml
-workflow:
-  id: "data_pipeline"
-  description: "Complete ETL pipeline"
-  
-  stages:
-    - name: "extract"
-      agent: "data_extractor"
-      operation: "extract"
-      params:
-        source: "database"
-        limit: 10000
-      timeout: 300
-      retry:
-        max_attempts: 3
-        backoff: "exponential"
-    
-    - name: "transform"
-      agent: "data_transformer"
-      operation: "transform"
-      depends_on: ["extract"]
-      params:
-        transformations:
-          - type: "normalize"
-          - type: "validate"
-          - type: "enrich"
-    
-    - name: "load"
-      agent: "data_loader"
-      operation: "load"
-      depends_on: ["transform"]
-      params:
-        destination: "warehouse"
-        
-  notifications:
-    on_complete: ["admin@company.com"]
-    on_failure: ["ops@company.com"]
-```
-
-### Custom Event Handlers
-
-```python
-from jarvis.events import EventHandler, EventType
-
-class CustomEventHandler(EventHandler):
-    async def handle_task_completed(self, event):
-        print(f"Task {event.task_id} completed")
-        # Perform custom actions
-    
-    async def handle_agent_failure(self, event):
-        print(f"Agent {event.agent_id} failed: {event.error}")
-        # Initiate recovery
-
-handler = CustomEventHandler()
-orchestrator.subscribe_to_events(EventType.TASK_COMPLETED, handler)
-```
-
-### Performance Optimization
-
-**Connection Pooling:**
-```python
-orchestrator = JarvisOrchestrator(
-    config="config/local.yml",
-    connection_pool_size=100,
-    queue_batch_size=50
-)
-```
-
-**Caching:**
-```python
-from jarvis.cache import CacheStrategy
-
-orchestrator.set_cache_strategy(
-    CacheStrategy.LRU,
-    max_size=10000,
-    ttl=3600
-)
-```
-
-## 📊 Performance Optimization
-
-### Best Practices
-
-1. **Agent Sizing**: Allocate appropriate resources per agent based on workload
-2. **Task Batching**: Group related tasks for efficient processing
-3. **Connection Pooling**: Use connection pools for database access
-4. **Message Compression**: Enable compression for large messages
-5. **Load Balancing**: Distribute load evenly across agents
-
-### Monitoring Performance
-
-```python
-# Access metrics
-metrics = await orchestrator.get_metrics()
-print(f"Tasks processed: {metrics['tasks_processed']}")
-print(f"Avg response time: {metrics['avg_response_time']}ms")
-print(f"Agent utilization: {metrics['agent_utilization']}")
-
-# Enable detailed profiling
-orchestrator.enable_profiling(detailed=True)
-```
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-**Issue: Agents not responding**
-- Check agent health: `orchestrator.get_agent_status(agent_id)`
-- Review agent logs: `docker logs jarvis-agent-1`
-- Verify network connectivity
-
-**Issue: Task timeouts**
-- Increase timeout in task definition
-- Check agent resource utilization
-- Review task complexity
-
-**Issue: Message queue backup**
-- Monitor queue length: `orchestrator.get_queue_metrics()`
-- Increase worker threads
-- Check downstream agent performance
-
-### Debug Mode
-
-```python
-# Enable debug logging
-import logging
-logging.basicConfig(level=logging.DEBUG)
-
-# Enable detailed tracing
-orchestrator = JarvisOrchestrator(
-    config="config/local.yml",
-    debug=True,
-    trace_enabled=True
-)
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Add tests for new functionality
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
-
-### Development Setup
-
-```bash
-# Install development dependencies
-pip install -r requirements-dev.txt
-
-# Run tests
-pytest tests/
-
-# Run linting and formatting
-black .
-flake8 .
-mypy jarvis/
-
-# Build documentation
-cd docs/
-make html
-```
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📧 Support
-
-For issues, feature requests, or questions:
-- Open an issue on GitHub
-- Email: support@jarvis-ai.dev
-- Documentation: https://docs.jarvis-ai.dev
-
-## 🙏 Acknowledgments
-
-- Contributors and maintainers
-- Open source community
-- All users and supporters of JARVIS
+# JARVIS Spellbook v2
+
+**Created:** 2026-01-12 12:44:48 UTC  
+**Last Updated:** 2026-01-12 12:44:48 UTC  
+**Maintained by:** Brvetr4ve1er
 
 ---
 
-**Last Updated:** 2026-01-12  
-**Version:** 1.0.0  
-**Status:** Active Development
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Spell Book v2 Specification](#spell-book-v2-specification)
+3. [Operational Loop](#operational-loop)
+4. [Agent Mappings](#agent-mappings)
+5. [Guidance & Best Practices](#guidance--best-practices)
+6. [Chat Session References](#chat-session-references)
+
+---
+
+## Overview
+
+The JARVIS Spellbook v2 is the comprehensive documentation and operational guide for the JARVIS agent framework. It outlines the core architecture, execution patterns, agent capabilities, and best practices for development and deployment.
+
+### Purpose
+- Define the canonical specification for Spell Book v2
+- Document the operational loop and execution flow
+- Map agent capabilities and responsibilities
+- Provide guidance for extending and maintaining the system
+
+### Audience
+- JARVIS developers and maintainers
+- Agent system operators
+- System integrators
+
+---
+
+## Spell Book v2 Specification
+
+### Core Components
+
+#### 1. Spell Definition
+A "Spell" in JARVIS v2 represents an executable operation or capability. Each spell is defined with:
+
+```
+{
+  "name": "spell_identifier",
+  "version": "2.0.0",
+  "description": "Human-readable description",
+  "inputs": {
+    "param1": "type",
+    "param2": "type"
+  },
+  "outputs": {
+    "result": "type"
+  },
+  "agent_id": "responsible_agent",
+  "timeout": 30000,
+  "retry_policy": "exponential_backoff"
+}
+```
+
+#### 2. Spell Registry
+All spells must be registered in the system's central registry before execution. The registry maintains:
+- Spell metadata and versioning
+- Agent assignments and dependencies
+- Permission and access control
+- Execution statistics and health
+
+#### 3. Execution Context
+Every spell execution includes:
+- `spell_id`: Unique identifier
+- `execution_id`: Unique execution instance
+- `timestamp`: Execution start time
+- `requester`: Requesting principal
+- `parameters`: Input parameters
+- `metadata`: Additional contextual data
+
+### Version 2.0 Features
+
+- **Enhanced Type Safety**: Strict input/output type validation
+- **Async Execution**: Native support for asynchronous spell execution
+- **Error Handling**: Comprehensive error classification and recovery
+- **Audit Logging**: Full execution audit trail
+- **Rate Limiting**: Built-in rate limiting and quota management
+- **Caching**: Spell result caching with TTL support
+- **Dependencies**: Explicit spell dependency declaration and resolution
+
+---
+
+## Operational Loop
+
+### High-Level Flow
+
+```
+[Trigger/Request] 
+    ↓
+[Authorization Check]
+    ↓
+[Spell Resolution]
+    ↓
+[Dependency Resolution]
+    ↓
+[Execution Planning]
+    ↓
+[Parallel/Sequential Execution]
+    ↓
+[Result Aggregation]
+    ↓
+[Response/Notification]
+    ↓
+[Audit Logging]
+```
+
+### Phase Descriptions
+
+#### 1. Trigger/Request Phase
+- System receives spell execution request
+- Request validated for completeness
+- Execution ID generated
+- Request queued for processing
+
+#### 2. Authorization Phase
+- Principal identity verified
+- Permissions evaluated against spell ACLs
+- Rate limits and quotas checked
+- Request approved or rejected
+
+#### 3. Spell Resolution Phase
+- Spell name resolved to current implementation
+- Version compatibility checked
+- Spell definition retrieved from registry
+- Required agent availability confirmed
+
+#### 4. Dependency Resolution Phase
+- Spell dependency tree constructed
+- Circular dependencies detected and rejected
+- Required preconditions evaluated
+- Sub-spell requirements identified
+
+#### 5. Execution Planning Phase
+- Execution plan constructed
+- Parallelizable spells identified
+- Resource allocation planned
+- Timeout and retry policies applied
+
+#### 6. Execution Phase
+- Spells executed according to plan
+- Real-time monitoring and logging
+- Error handling and recovery attempted
+- Partial failures isolated
+
+#### 7. Result Aggregation Phase
+- Individual spell results collected
+- Results combined according to plan
+- Output validation against schema
+- Caching decision made
+
+#### 8. Response Phase
+- Results returned to requester
+- Notifications sent to interested parties
+- Webhooks triggered if configured
+- Response cached if applicable
+
+#### 9. Audit Phase
+- Complete execution record stored
+- Performance metrics recorded
+- Errors categorized and stored
+- Analytics updated
+
+### Error Handling Strategy
+
+**Error Classification:**
+- `VALIDATION_ERROR`: Input validation failed
+- `AUTHORIZATION_ERROR`: Permission denied
+- `NOT_FOUND_ERROR`: Spell or resource not found
+- `TIMEOUT_ERROR`: Execution exceeded timeout
+- `RUNTIME_ERROR`: Spell execution failed
+- `DEPENDENCY_ERROR`: Dependency resolution failed
+- `RATE_LIMIT_ERROR`: Rate limit exceeded
+
+**Recovery Strategies:**
+1. **Automatic Retry**: Transient errors retried with exponential backoff
+2. **Circuit Breaking**: Repeated failures trigger circuit breaker
+3. **Fallback**: Alternative implementations attempted
+4. **Partial Success**: Continue with available results
+5. **User Notification**: Operator notified of critical failures
+
+---
+
+## Agent Mappings
+
+### Agent Architecture
+
+Each agent in JARVIS is responsible for:
+- A specific domain or capability set
+- Spell execution within its domain
+- Resource management for its spells
+- Health monitoring and reporting
+- Load balancing across its instances
+
+### Standard Agents
+
+#### Agent: Core
+**Responsibility**: System core operations  
+**Spells**: 
+- `system.health_check`
+- `system.diagnostics`
+- `registry.query`
+- `registry.update`
+
+**Status**: Core system agent (always required)
+
+#### Agent: Executor
+**Responsibility**: Spell execution and orchestration  
+**Spells**:
+- `execution.run`
+- `execution.cancel`
+- `execution.retry`
+- `execution.status`
+
+**Status**: Critical for operations
+
+#### Agent: Storage
+**Responsibility**: Data persistence and retrieval  
+**Spells**:
+- `storage.read`
+- `storage.write`
+- `storage.delete`
+- `storage.query`
+
+**Status**: Required for state management
+
+#### Agent: Auth
+**Responsibility**: Authentication and authorization  
+**Spells**:
+- `auth.verify_principal`
+- `auth.check_permission`
+- `auth.get_credentials`
+- `auth.issue_token`
+
+**Status**: Required for security
+
+#### Agent: Notification
+**Responsibility**: Event notifications and alerts  
+**Spells**:
+- `notify.send`
+- `notify.subscribe`
+- `notify.unsubscribe`
+- `notify.query_subscriptions`
+
+**Status**: Non-critical but recommended
+
+### Agent Registration Template
+
+```yaml
+agent:
+  id: agent_name
+  version: "2.0.0"
+  capabilities:
+    - spell1
+    - spell2
+  resources:
+    cpu: "2000m"
+    memory: "2Gi"
+  health_check:
+    endpoint: "/health"
+    interval: "30s"
+    timeout: "5s"
+  load_balancing:
+    strategy: "round_robin"
+    max_concurrent: 100
+```
+
+### Agent Health Monitoring
+
+Each agent must report:
+- **Status**: healthy, degraded, unhealthy
+- **Latency**: Average response time
+- **Error Rate**: Percentage of failed executions
+- **Throughput**: Executions per second
+- **Resource Usage**: CPU, memory, connections
+
+---
+
+## Guidance & Best Practices
+
+### Development Guidelines
+
+#### 1. Spell Design
+- **Single Responsibility**: Each spell should do one thing well
+- **Idempotency**: Spells should be safely repeatable
+- **Timeout**: Always specify realistic timeout values
+- **Error Messages**: Provide actionable error descriptions
+- **Versioning**: Increment version on breaking changes
+
+#### 2. Agent Development
+- **Resource Awareness**: Monitor and respect resource limits
+- **Graceful Degradation**: Maintain partial functionality under load
+- **Health Monitoring**: Implement comprehensive health checks
+- **Logging**: Log all operations for debugging and auditing
+- **Testing**: Include unit, integration, and load tests
+
+#### 3. Error Handling
+- **Specific Errors**: Throw specific, actionable errors
+- **Retry Logic**: Implement appropriate retry strategies
+- **Logging**: Log errors with full context
+- **User Feedback**: Provide clear error messages
+- **Monitoring**: Alert on error rate thresholds
+
+#### 4. Performance Optimization
+- **Caching**: Utilize spell result caching
+- **Batching**: Group related operations
+- **Parallelization**: Execute independent spells in parallel
+- **Indexing**: Create appropriate database indexes
+- **Monitoring**: Track and optimize slow spells
+
+#### 5. Security Practices
+- **Input Validation**: Validate all inputs strictly
+- **Access Control**: Enforce principle of least privilege
+- **Audit Logging**: Log all sensitive operations
+- **Secrets Management**: Never hardcode secrets
+- **Rate Limiting**: Implement appropriate rate limits
+
+### Operational Guidelines
+
+#### 1. Deployment
+- Use semantic versioning for spell versions
+- Test thoroughly in staging before production
+- Deploy using blue-green or canary strategies
+- Monitor metrics during and after deployment
+- Maintain rollback capability
+
+#### 2. Monitoring
+- Set up alerts for error rates exceeding thresholds
+- Monitor spell latency percentiles (p50, p95, p99)
+- Track resource utilization per agent
+- Monitor queue depth and processing time
+- Alert on agent health degradation
+
+#### 3. Maintenance
+- Regularly review and clean up old spell versions
+- Archive audit logs according to policy
+- Perform periodic performance analysis
+- Update dependencies for security patches
+- Document all manual interventions
+
+#### 4. Troubleshooting
+- Check agent health status first
+- Review recent spell version changes
+- Examine execution logs and metrics
+- Test spell manually with sample inputs
+- Check for rate limit or quota issues
+- Verify dependency availability
+
+---
+
+## Chat Session References
+
+### Session Information
+- **Session Date**: 2026-01-12
+- **Session Time**: 12:44:48 UTC
+- **User**: Brvetr4ve1er
+- **Repository**: Brvetr4ve1er/JARVIS
+
+### Key Discussion Topics
+
+This section will be updated as guidance and decisions are documented from chat sessions. Current topics include:
+
+1. **Spell Book v2 Architecture**
+   - Component structure and definitions
+   - Registry and versioning system
+   - Execution context requirements
+
+2. **Operational Loop**
+   - Nine-phase execution pipeline
+   - Error handling and recovery strategies
+   - Result aggregation and caching
+
+3. **Agent System**
+   - Standard agent definitions and responsibilities
+   - Health monitoring requirements
+   - Load balancing strategies
+
+4. **Development & Operations**
+   - Best practices for spell and agent development
+   - Deployment and monitoring strategies
+   - Troubleshooting methodologies
+
+### Decision Log
+
+| Date | Decision | Rationale | Status |
+|------|----------|-----------|--------|
+| 2026-01-12 | Create SPELLBOOK.md | Document JARVIS v2 architecture | ✅ Implemented |
+
+### Future Work
+
+- [ ] Implement Spell Registry system
+- [ ] Deploy Agent Health Monitoring
+- [ ] Establish Audit Logging infrastructure
+- [ ] Create Spell Development SDK
+- [ ] Implement Rate Limiting framework
+- [ ] Build Monitoring Dashboard
+- [ ] Document Agent Communication Protocol
+- [ ] Create Migration Guide from v1 to v2
+
+---
+
+## Document Management
+
+**Status**: Active  
+**Review Cycle**: Quarterly or as needed  
+**Last Reviewed**: 2026-01-12  
+**Next Review**: 2026-04-12
+
+### How to Update This Document
+
+1. Create a feature branch: `feature/spellbook-update-<topic>`
+2. Make changes to SPELLBOOK.md
+3. Update the "Last Updated" timestamp
+4. Create a pull request with clear description
+5. Require review from maintainers
+6. Merge to main after approval
+
+### Related Documentation
+
+- ARCHITECTURE.md (if exists)
+- AGENT_DEVELOPMENT.md (if exists)
+- DEPLOYMENT.md (if exists)
+- API.md (if exists)
+
+---
+
+*This document is the source of truth for JARVIS Spellbook v2. All deviations from documented practices should be escalated and documented.*
