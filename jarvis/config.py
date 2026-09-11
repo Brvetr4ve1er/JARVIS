@@ -41,5 +41,9 @@ class Config:
     def db_path(self) -> Path:
         return self.data_dir / "jarvis.db"
 
+    @property
+    def mcp_servers_path(self) -> Path:
+        return self.data_dir / "mcp_servers.json"
+
 
 CONFIG = Config()

@@ -11,6 +11,9 @@ from rich.table import Table
 from jarvis import db
 from jarvis.agent import AgentRuntime
 from jarvis.config import CONFIG
+from jarvis.mcp_client.bridge import register_mcp_tools
+from jarvis.mcp_client.config import McpConfigError, load_mcp_servers
+from jarvis.mcp_client.manager import McpManager
 from jarvis.memory import profile, store
 from jarvis.models.base import NotConfiguredError, ProviderError
 from jarvis.models.router import ModelRouter
@@ -24,6 +27,7 @@ Commands:
   /sessions         list recent sessions
   /switch <id>      switch to a past session by id
   /model [name]     show or switch active model provider (local, anthropic, openai)
+  /mcp              list connected MCP servers and their tools
   /profile          show remembered facts about you
   /remember k=v     manually store a fact
   /forget <key>     delete a stored fact
@@ -63,6 +67,8 @@ def main() -> None:
         console.print(f"[red]{e}[/]")
         sys.exit(1)
 
+    mcp_manager = _start_mcp(console, registry, permissions)
+
     session_id = store.create_session(conn) if args.new else store.get_or_create_active_session(conn)
 
     console.print(
@@ -73,32 +79,64 @@ def main() -> None:
 
     agent = AgentRuntime(conn, router, registry, permissions, CONFIG, session_id)
 
-    while True:
-        try:
-            user_text = console.input("[bold]› [/]").strip()
-        except (EOFError, KeyboardInterrupt):
-            console.print()
-            break
-
-        if not user_text:
-            continue
-
-        if user_text.startswith("/"):
-            session_id, done = _handle_command(user_text, console, conn, router, agent, session_id)
-            if done:
+    try:
+        while True:
+            try:
+                user_text = console.input("[bold]› [/]").strip()
+            except (EOFError, KeyboardInterrupt):
+                console.print()
                 break
-            continue
 
-        try:
-            reply = agent.turn(user_text, on_event=_on_event(console))
-        except ProviderError as e:
-            console.print(f"[red]{e}[/]")
-            continue
+            if not user_text:
+                continue
 
-        console.print(reply)
+            if user_text.startswith("/"):
+                session_id, done = _handle_command(user_text, console, conn, router, agent, session_id, mcp_manager)
+                if done:
+                    break
+                continue
+
+            try:
+                reply = agent.turn(user_text, on_event=_on_event(console))
+            except ProviderError as e:
+                console.print(f"[red]{e}[/]")
+                continue
+
+            console.print(reply)
+    finally:
+        mcp_manager.stop()
 
 
-def _handle_command(cmd: str, console: Console, conn, router: ModelRouter, agent: AgentRuntime, session_id: str):
+def _start_mcp(console: Console, registry: ToolRegistry, permissions: PermissionLayer) -> McpManager:
+    try:
+        configs = load_mcp_servers(CONFIG.mcp_servers_path)
+    except McpConfigError as e:
+        console.print(f"[red]MCP config error: {e}[/]")
+        configs = []
+
+    manager = McpManager(configs)
+    if not configs:
+        return manager
+
+    console.print(f"[dim]connecting to {len(configs)} MCP server(s)…[/]")
+    manager.start()
+    count = register_mcp_tools(registry, manager, configs, permissions)
+    if count:
+        console.print(f"[green]MCP: {count} tool(s) from {len(manager.list_tools())} server(s)[/]")
+    for err in manager.errors:
+        console.print(f"[red]MCP: {err.server} failed to connect — {err.message}[/]")
+    return manager
+
+
+def _handle_command(
+    cmd: str,
+    console: Console,
+    conn,
+    router: ModelRouter,
+    agent: AgentRuntime,
+    session_id: str,
+    mcp_manager: McpManager,
+):
     parts = cmd[1:].split(maxsplit=1)
     name = parts[0].lower() if parts else ""
     rest = parts[1] if len(parts) > 1 else ""
@@ -140,6 +178,15 @@ def _handle_command(cmd: str, console: Console, conn, router: ModelRouter, agent
                 console.print(f"[green]switched to {router.active_name}[/]")
             except NotConfiguredError as e:
                 console.print(f"[red]{e}[/]")
+
+    elif name == "mcp":
+        tools_by_server = mcp_manager.list_tools()
+        if not tools_by_server and not mcp_manager.errors:
+            console.print(f"[dim]no MCP servers configured — see {CONFIG.mcp_servers_path}[/]")
+        for server, tools in tools_by_server.items():
+            console.print(f"[green]{server}[/] ({len(tools)} tools): {', '.join(t.name for t in tools)}")
+        for err in mcp_manager.errors:
+            console.print(f"[red]{err.server}: {err.message}[/]")
 
     elif name == "profile":
         facts = profile.all_facts(conn)
