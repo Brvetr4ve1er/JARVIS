@@ -2,6 +2,8 @@
 
 > *Your comprehensive AI companion framework for unlocking the full potential of language models through master prompts and the spellbook system.*
 
+> **Note:** everything below this point is prompt-engineering documentation (the "spellbook"). The actual running application — local-first agent runtime with persistent memory, multimodel routing, and gated tool execution — lives in [`jarvis/`](jarvis/README.md).
+
 ---
 
 ## 📖 Table of Contents
