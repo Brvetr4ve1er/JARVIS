@@ -1,0 +1,4 @@
+node_modules/
+*.log
+.umc-partial/
+_shots/
