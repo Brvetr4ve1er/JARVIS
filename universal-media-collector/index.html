@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="nexus">
+<head>
+  <meta charset="UTF-8" />
+  <!-- no eval, no remote origins. img-src data: carries main-side verified previews;
+       the renderer never loads a remote URL itself. connect-src 'self' only allows
+       the local icon-sprite fetch — there is no remote endpoint to reach. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <title>Universal Media Collector</title>
+  <link rel="stylesheet" href="./styles/tokens.css" />
+  <link rel="stylesheet" href="./styles/base.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
+  <link rel="stylesheet" href="./styles/chrome.css" />
+  <link rel="stylesheet" href="./styles/realms.css" />
+  <link rel="stylesheet" href="./styles/palette.css" />
+  <!-- theme skins load last; each is scoped to its own [data-theme] -->
+  <link rel="stylesheet" href="./styles/nexus.css" />
+  <link rel="stylesheet" href="./styles/daylight.css" />
+</head>
+<body>
+  <div id="nexus">
+    <aside id="rail-left" aria-label="realms"></aside>
+    <div id="stage-wrap">
+      <header id="topstrip"></header>
+      <main id="stage"></main>
+    </div>
+    <aside id="rail-right" aria-label="ambient"></aside>
+  </div>
+  <div id="overlays">
+    <div id="scrim"></div>
+    <aside id="drawer" aria-label="details"></aside>
+    <div id="confirm" class="modal" role="dialog" aria-modal="true"></div>
+    <div id="ack" class="modal" role="dialog" aria-modal="true"></div>
+    <div id="toasts" aria-live="polite"></div>
+  </div>
+  <footer id="statusbar">
+    <span class="coin-blink">● LOCAL</span>
+    <span id="status">loading…</span>
+  </footer>
+  <script type="module" src="./src/core/boot.js"></script>
+</body>
+</html>

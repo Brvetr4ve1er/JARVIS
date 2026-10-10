@@ -18,6 +18,10 @@
 
 ---
 
+## Apps in this repository
+
+- **[`universal-media-collector/`](universal-media-collector/README.md)** — a local-first desktop app (Electron, no build step) on the WorkspaceHQ NEXUS v3 shell: paste a link, see the media a public page or direct link actually exposes, save the source file with byte-count and SHA-256 verification. Honest capability states per platform; no access-control bypass by design.
+
 ## Introduction
 
 JARVIS is an advanced prompt engineering framework that provides 100 meticulously crafted master prompts organized within a sophisticated spellbook system. This repository serves as your complete toolkit for maximizing AI capabilities across diverse use cases—from creative writing and code generation to strategic analysis and problem-solving.

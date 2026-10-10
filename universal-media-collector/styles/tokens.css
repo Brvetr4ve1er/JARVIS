@@ -1,0 +1,11 @@
+/* tokens.css — design-system ramp (spacing, type, layout), same ramp as
+   WorkspaceHQ NEXUS v3 so the two apps read as one family. Loaded first. */
+:root {
+  --space-0: 0; --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px; --space-7: 48px;
+  --fs-xs: 12px; --fs-sm: 14px; --fs-md: 16px; --fs-lg: 20px; --fs-xl: 26px; --fs-2xl: 34px;
+  --measure: 960px;
+  --tap-min: 32px;
+  --rail-w: 84px;
+  --ambient-w: clamp(200px, 18vw, 264px);
+  --radius: 12px; --radius-sm: 8px;
+}

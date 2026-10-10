@@ -1,0 +1,11 @@
+/* NEXUS — the default dark theme (WorkspaceHQ v3 palette): near-solid dark
+   surfaces, hairline borders, high-contrast text, ONE restrained amber accent. */
+:root[data-theme="nexus"] {
+  --bg: #0b0d13; --bg2: #06070d; --panel: #141824; --card: #141824; --card-hi: #1c2130; --ash-3: #232a3b;
+  --ink: #05060a; --frame: #2a3040; --frame-hi: #a8701c; --edge-2: rgba(255,255,255,.12); --etch: rgba(150,160,180,.10);
+  --text: #eceef3; --muted: #aeb4c2; --faint: #7d8394;
+  --accent: #e2a24a; --accent-2: #f2c479; --accent-deep: #a8701c; --accent-soft: rgba(226,162,74,.10); --accent-edge: rgba(226,162,74,.34);
+  --red: #e0645a; --green: #7fb98a; --blue: #6f9fe0; --orange: #d98a3a; --yellow: #d9b24a;
+  color-scheme: dark;
+}
+:root[data-theme="nexus"] body { background: radial-gradient(120% 80% at 50% 120%, rgba(226,162,74,.035), transparent 62%), linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%); }

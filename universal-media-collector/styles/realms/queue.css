@@ -1,0 +1,15 @@
+/* QUEUE — rows with a progress meter and verb buttons. */
+.q-row { align-items: flex-start; cursor: pointer; }
+.q-ico { flex: 0 0 auto; color: var(--faint); padding-top: 2px; }
+.q-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.q-top { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.q-title { font-weight: 600; font-size: 13.5px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.q-sub { font-size: 11.5px; color: var(--faint); }
+.q-bar { margin-top: 2px; }
+.st-done .q-bar, .st-skipped .q-bar, .st-cancelled .q-bar, .st-queued .q-bar, .st-conflict .q-bar { opacity: .6; }
+.q-msg { font-size: 12px; color: var(--muted); }
+.q-msg:empty { display: none; }
+.q-msg.err { color: var(--red); } .q-msg.warn { color: var(--orange); }
+.q-msg .n-code { font-family: var(--font-data); font-size: 10.5px; letter-spacing: .06em; opacity: .8; }
+.q-msg .n-next { color: var(--muted); }
+.q-acts { flex: 0 0 auto; }

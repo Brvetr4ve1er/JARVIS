@@ -1,0 +1,19 @@
+/* DAYLIGHT — the clean light theme (WorkspaceHQ v3 palette): near-white
+   surfaces, dark ink text, hairline borders, soft shadows, ONE restrained
+   blue accent. Same token contract as nexus.css. */
+:root[data-theme="daylight"] {
+  --bg: #f6f7f9; --bg2: #eef0f3; --panel: #ffffff; --card: #ffffff; --card-hi: #f1f3f6; --ash-3: #d9dde4;
+  --ink: #eef0f4; --frame: #e3e6eb; --frame-hi: #1848a8; --edge-2: rgba(20,28,46,.16); --etch: rgba(20,28,46,.06);
+  --text: #1b1f27; --muted: #565d6b; --faint: #838a97;
+  --accent: #2f6feb; --accent-2: #1e5fd8; --accent-deep: #1848a8; --accent-soft: rgba(47,111,235,.08); --accent-edge: rgba(47,111,235,.3);
+  --red: #d64545; --green: #2f9e57; --blue: #2f6feb; --orange: #c07817; --yellow: #b8891f;
+  color-scheme: light;
+}
+:root[data-theme="daylight"] body { background: radial-gradient(120% 80% at 50% 120%, rgba(47,111,235,.03), transparent 62%), linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%); }
+:root[data-theme="daylight"] .sigil:hover { background: rgba(20,28,46,.04); }
+:root[data-theme="daylight"] .card { box-shadow: 0 1px 2px rgba(20,28,46,.06); }
+:root[data-theme="daylight"] .card:hover { box-shadow: 0 6px 18px -10px rgba(20,28,46,.25); }
+:root[data-theme="daylight"] .btn.primary:hover:not(:disabled) { background: rgba(47,111,235,.16); border-color: rgba(47,111,235,.45); }
+:root[data-theme="daylight"] #scrim, :root[data-theme="daylight"] .modal, :root[data-theme="daylight"] #palette.pal-wrap { background: rgba(20,28,46,.45); }
+:root[data-theme="daylight"] .theme-menu, :root[data-theme="daylight"] .toast, :root[data-theme="daylight"] .md-card { box-shadow: 0 20px 50px -24px rgba(20,28,46,.5); }
+:root[data-theme="daylight"] ::-webkit-scrollbar-thumb:hover { background: #b9bfc9; }

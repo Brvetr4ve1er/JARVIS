@@ -1,0 +1,4 @@
+/* SETTINGS — the form owns its layout via .form/.field (components.css). */
+.settings .kv { font-size: 13px; }
+.settings .kv .btn { margin-inline-start: 8px; }
+.settings p.lead { margin-bottom: 4px; }

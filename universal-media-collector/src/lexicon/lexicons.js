@@ -7,7 +7,7 @@ export const LEXICONS = {
     tab_inbox: 'INBOX', tab_queue: 'QUEUE', tab_library: 'LIBRARY', tab_sources: 'SOURCES', tab_settings: 'SETTINGS',
     brand_sub: 'Paste a link. See what media is available. Save the source file.',
     sys: '◈ SYS', sys_theme: 'THEME', sys_language: 'LANGUAGE', sys_tools: 'TOOLS', sys_open_dest: 'OPEN DESTINATION', sys_open_dest_hint: 'reveal the download folder',
-    plate_queue: 'QUEUE', plate_active: 'active', plate_saved: 'SAVED', plate_today: 'this session', plate_dest: 'DESTINATION',
+    plate_queue: 'QUEUE', plate_active: 'active', plate_saved: 'SAVED', plate_today: 'session', plate_dest: 'DESTINATION',
     status_keys: '1-5 realms · / paste · ⌘K palette · Esc close',
     status_queue: '{active} active · {queued} queued · {done} done',
     // inbox
@@ -66,7 +66,8 @@ export const LEXICONS = {
     ob_check: 'I will only save media I own or am permitted to save.', ob_go: 'Continue',
     // ambient
     amb_now: 'NOW DOWNLOADING', amb_idle: 'nothing in flight', amb_dest: 'DESTINATION', amb_source: 'LAST SOURCE', amb_source_idle: 'no scan yet', amb_limits: 'SCAN LIMITS',
-    amb_limit_page: 'one page per scan', amb_limit_bytes: 'page ≤ {mb} MB', amb_limit_cands: '≤ {n} candidates', amb_limit_file: 'file ≤ {gb} GB', amb_queue: 'QUEUE',
+    amb_limit_page: 'one page per scan', amb_page: 'page', amb_cands: 'candidates', amb_file: 'file', amb_queue: 'QUEUE',
+    amb_active: 'active', amb_queued: 'queued', amb_done: 'done', amb_failed: 'failed', amb_decision: 'needs decision', amb_cand_one: 'candidate', amb_cand_many: 'candidates', status_library: '{n} in library', on: 'on', off: 'off',
     // palette
     pal_placeholder: 'Go to a realm, a queued file, or a saved file…', pal_empty: 'No matches', pal_foot: '↑↓ move · ↵ open · esc close', pk_realm: 'GO', pk_job: 'QUEUE', pk_file: 'LIBRARY', pk_action: 'ACTION',
     pal_act_paste: 'Paste link from clipboard', pal_act_pause_all: 'Pause all downloads', pal_act_resume_all: 'Resume all downloads', pal_act_theme: 'Toggle theme',
@@ -80,7 +81,7 @@ export const LEXICONS = {
     tab_inbox: 'ENTRÉE', tab_queue: 'FILE', tab_library: 'BIBLIOTHÈQUE', tab_sources: 'SOURCES', tab_settings: 'RÉGLAGES',
     brand_sub: 'Collez un lien. Voyez les médias disponibles. Enregistrez le fichier source.',
     sys: '◈ SYS', sys_theme: 'THÈME', sys_language: 'LANGUE', sys_tools: 'OUTILS', sys_open_dest: 'OUVRIR LA DESTINATION', sys_open_dest_hint: 'afficher le dossier de téléchargement',
-    plate_queue: 'FILE', plate_active: 'actifs', plate_saved: 'ENREGISTRÉS', plate_today: 'cette session', plate_dest: 'DESTINATION',
+    plate_queue: 'FILE', plate_active: 'actifs', plate_saved: 'ENREGISTRÉS', plate_today: 'session', plate_dest: 'DESTINATION',
     status_keys: '1-5 vues · / coller · ⌘K palette · Échap fermer',
     status_queue: '{active} actifs · {queued} en attente · {done} terminés',
     inbox_h: 'Collez un lien',
@@ -132,7 +133,8 @@ export const LEXICONS = {
     ob_h: 'Avant de commencer', ob_body: 'Cet outil enregistre des médias que vous possédez, avez créés ou êtes autorisé à conserver. La visibilité publique seule ne donne pas le droit de republier ou redistribuer. Il ne contourne jamais les contrôles d’accès.',
     ob_check: 'Je n’enregistrerai que des médias que je possède ou que je suis autorisé à enregistrer.', ob_go: 'Continuer',
     amb_now: 'EN COURS', amb_idle: 'rien en cours', amb_dest: 'DESTINATION', amb_source: 'DERNIÈRE SOURCE', amb_source_idle: 'aucune analyse', amb_limits: 'LIMITES D’ANALYSE',
-    amb_limit_page: 'une page par analyse', amb_limit_bytes: 'page ≤ {mb} Mo', amb_limit_cands: '≤ {n} candidats', amb_limit_file: 'fichier ≤ {gb} Go', amb_queue: 'FILE',
+    amb_limit_page: 'une page par analyse', amb_page: 'page', amb_cands: 'candidats', amb_file: 'fichier', amb_queue: 'FILE',
+    amb_active: 'actifs', amb_queued: 'en attente', amb_done: 'terminés', amb_failed: 'échecs', amb_decision: 'décision requise', amb_cand_one: 'candidat', amb_cand_many: 'candidats', status_library: '{n} en bibliothèque', on: 'oui', off: 'non',
     pal_placeholder: 'Aller à une vue, un téléchargement ou un fichier…', pal_empty: 'Aucun résultat', pal_foot: '↑↓ déplacer · ↵ ouvrir · échap fermer', pk_realm: 'ALLER', pk_job: 'FILE', pk_file: 'BIBLIO', pk_action: 'ACTION',
     pal_act_paste: 'Coller le lien du presse-papiers', pal_act_pause_all: 'Tout mettre en pause', pal_act_resume_all: 'Tout reprendre', pal_act_theme: 'Changer de thème',
     toast_queued: '{n} ajouté(s) à la file', toast_saved: '{name} enregistré', toast_failed: '{name} : {msg}', toast_settings: 'Réglages enregistrés', toast_copied: 'Copié',

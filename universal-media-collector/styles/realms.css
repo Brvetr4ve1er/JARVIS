@@ -1,0 +1,7 @@
+/* Realm style loader — one @import per realm so realm work never touches a
+   shared file. */
+@import './realms/inbox.css';
+@import './realms/queue.css';
+@import './realms/library.css';
+@import './realms/sources.css';
+@import './realms/settings.css';
